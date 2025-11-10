@@ -1,32 +1,34 @@
-# Dotenv-Tools Usage Guide
+# Dotenv-Tools Usage Guide 📚✨
 
-## Table of Contents
+> *Your comprehensive guide to dotenv-tools - let's make environment management fun and easy!* 😊💖
 
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Commands](#commands)
-  - [load-dotenv](#load-dotenv)
-  - [unload-dotenv](#unload-dotenv)
-  - [set-dotenv](#set-dotenv)
-- [Assignment Operators](#assignment-operators)
-- [Variable Expansion](#variable-expansion)
-- [Syntax Reference](#syntax-reference)
-- [Examples](#examples)
-- [Integration](#integration)
-- [Troubleshooting](#troubleshooting)
-- [FAQ](#faq)
+## Table of Contents 📋🎯
+
+- [Installation](#installation) 📦
+- [Quick Start](#quick-start) 🚀
+- [Commands](#commands) 🎮
+  - [load-dotenv](#load-dotenv) 📥
+  - [unload-dotenv](#unload-dotenv) 📤
+  - [set-dotenv](#set-dotenv) ✏️
+- [Assignment Operators](#assignment-operators) 🎛️
+- [Variable Expansion](#variable-expansion) 🔄
+- [Syntax Reference](#syntax-reference) 📖
+- [Examples](#examples) 💡
+- [Integration](#integration) 🔗
+- [Troubleshooting](#troubleshooting) 🛠️
+- [FAQ](#faq) ❓
 
 ---
 
-## Installation
+## Installation 📦✨
 
-### From PyPI
+### From PyPI (Super Easy!) 🎉
 
 ```bash
 pip install dotenv-tools
 ```
 
-### From Source
+### From Source (For the Adventurous!) 🗺️
 
 ```bash
 git clone https://github.com/LousyBook94/load-dotenv.git
@@ -34,33 +36,33 @@ cd load-dotenv
 pip install -e .
 ```
 
-### Development Installation
+### Development Installation (For Contributors!) 🌟
 
 ```bash
 git clone https://github.com/LousyBook94/load-dotenv.git
 cd load-dotenv
 
-# Install with development dependencies
+# Install with development dependencies 💾
 pip install -e ".[dev]"
 
-# Run tests
+# Run tests ✨
 pytest
 ```
 
-### Package Information
+### Package Information 📊
 
-- **Package Name**: dotenv-tools
-- **Repository Name**: load-dotenv
-- **Author**: LousyBook01
-- **Version**: 0.0.1
+- **Package Name**: dotenv-tools 🎨
+- **Repository Name**: load-dotenv 📁
+- **Author**: LousyBook01 ✍️💖
+- **Version**: 0.0.1 🏷️
 
 ---
 
-## Quick Start
+## Quick Start 🚀💨
 
-**Method 1: Create .env file manually and load it**
+**Method 1: Create .env file manually and load it** 📝✨
 
-1. Create a `.env` file in your project:
+1. Create a `.env` file in your project: 🎨
 
 ```bash
 DATABASE_URL=postgres://localhost/mydb
@@ -68,27 +70,27 @@ API_KEY=your-api-key
 DEBUG=true
 ```
 
-2. Load the environment variables:
+2. Load the environment variables: 📥🌟
 
 ```bash
 load-dotenv
 ```
 
-3. Use the variables in your application:
+3. Use the variables in your application: 💻😄
 
 ```bash
 echo $DATABASE_URL  # postgres://localhost/mydb
 ```
 
-4. When done, unload the variables:
+4. When done, unload the variables: 🧹💨
 
 ```bash
 unload-dotenv
 ```
 
-**Method 2: Use set-dotenv to manage .env file**
+**Method 2: Use set-dotenv to manage .env file** ✏️🎉
 
-1. Set variables directly:
+1. Set variables directly: 🎯
 
 ```bash
 set-dotenv DATABASE_URL postgres://localhost/mydb
@@ -96,7 +98,7 @@ set-dotenv API_KEY=your-api-key
 set-dotenv DEBUG=true
 ```
 
-2. List variables in .env:
+2. List variables in .env: 📋👀
 
 ```bash
 set-dotenv --list
