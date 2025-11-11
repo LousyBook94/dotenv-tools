@@ -12,6 +12,10 @@ import click
 from .core import LoadDotenv, find_dotenv_file, LoadDotenvError, LoadDotenvFileNotFound
 from .tracker import Tracker
 from .setter import SetDotenv, find_or_create_dotenv_file, SetDotenvError, SetDotenvFileNotFound
+from .extras import (
+    export_dotenv, generate_dotenv_template, compare_dotenv_files,
+    install_shell_completion, DotenvTemplate, DotenvDiffer, DotenvExporter, ShellCompleter
+)
 
 
 # Default state file location
@@ -373,3 +377,233 @@ def set_dotenv(
 
 if __name__ == '__main__':
     cli()
+
+
+# Additional Commands for Roadmap Features
+
+@cli.command()
+@click.argument('file', type=Path, required=False)
+@click.option(
+    '--format', '-f',
+    type=click.Choice(['json', 'yaml']),
+    default='json',
+    help='Export format (default: json)'
+)
+@click.option(
+    '--output', '-o',
+    type=Path,
+    help='Output file (default: stdout)'
+)
+@click.option(
+    '--verbose', '-v',
+    is_flag=True,
+    help='Show detailed output'
+)
+def export_dotenv_cmd(
+    file: Optional[Path],
+    format: str,
+    output: Optional[Path],
+    verbose: bool
+):
+    """Export .env file to JSON or YAML format.
+    
+    FILE: Path to .env file to export (optional, auto-discovers if not provided)
+    
+    Examples:
+    
+        export-dotenv
+        export-dotenv --format yaml
+        export-dotenv --output config.json
+        export-dotenv --format yaml --output config.yaml
+    """
+    try:
+        # Find the .env file
+        if file is None:
+            env_file = find_dotenv_file()
+            if verbose:
+                click.echo(f"Found .env file: {env_file}")
+        else:
+            env_file = file
+            if not env_file.exists():
+                raise click.ClickException(f"File not found: {env_file}")
+        
+        # Export the file
+        export_dotenv(env_file, format, output, verbose)
+        
+    except Exception as e:
+        raise click.ClickException(f"Error exporting: {e}")
+
+
+@cli.command()
+@click.option(
+    '--output', '-o',
+    type=Path,
+    help='Output file (default: stdout)'
+)
+@click.option(
+    '--variables', '-v',
+    multiple=True,
+    help='Variables to include in template (can be repeated)'
+)
+@click.option(
+    '--no-comments',
+    is_flag=True,
+    help='Exclude helpful comments'
+)
+@click.option(
+    '--no-examples',
+    is_flag=True,
+    help='Exclude example values'
+)
+@click.option(
+    '--verbose', '-v',
+    is_flag=True,
+    help='Show detailed output'
+)
+def generate_template_cmd(
+    output: Optional[Path],
+    variables: tuple,
+    no_comments: bool,
+    no_examples: bool,
+    verbose: bool
+):
+    """Generate a .env template file.
+    
+    Examples:
+    
+        generate-template
+        generate-template --output .env.template
+        generate-template --variables APP_NAME PORT DATABASE_URL
+        generate-template --no-comments --no-examples
+    """
+    try:
+        var_list = list(variables) if variables else None
+        generate_dotenv_template(output, var_list, no_comments, no_examples, verbose)
+        
+    except Exception as e:
+        raise click.ClickException(f"Error generating template: {e}")
+
+
+@cli.command()
+@click.argument('file1', type=Path, required=True)
+@click.argument('file2', type=Path, required=False)
+@click.option(
+    '--format', '-f',
+    type=click.Choice(['text', 'json']),
+    default='text',
+    help='Output format (default: text)'
+)
+@click.option(
+    '--output', '-o',
+    type=Path,
+    help='Output file (default: stdout)'
+)
+@click.option(
+    '--env', '-e',
+    is_flag=True,
+    help='Compare with current environment instead of a second file'
+)
+@click.option(
+    '--verbose', '-v',
+    is_flag=True,
+    help='Show detailed output'
+)
+def compare_env_cmd(
+    file1: Path,
+    file2: Optional[Path],
+    format: str,
+    output: Optional[Path],
+    env: bool,
+    verbose: bool
+):
+    """Compare .env files or with current environment.
+    
+    FILE1: First .env file to compare
+    FILE2: Second .env file (or omit when using --env)
+    
+    Examples:
+    
+        compare-env .env.development .env.production
+        compare-env .env --env
+        compare-env .env.staging --output diff.txt
+        compare-env .env --format json --output diff.json
+    """
+    try:
+        if env and file2:
+            raise click.ClickException("Cannot specify both --env and FILE2")
+        
+        if env:
+            compare_dotenv_files(file1, None, format, output, verbose)
+        else:
+            if not file2:
+                raise click.ClickException("Please specify FILE2 or use --env to compare with environment")
+            compare_dotenv_files(file1, file2, format, output, verbose)
+        
+    except Exception as e:
+        raise click.ClickException(f"Error comparing: {e}")
+
+
+@cli.command()
+@click.argument('shell', type=str, required=True)
+@click.option(
+    '--install', '-i',
+    is_flag=True,
+    help='Install completion script'
+)
+@click.option(
+    '--output', '-o',
+    type=Path,
+    help='Output file for completion script'
+)
+@click.option(
+    '--verbose', '-v',
+    is_flag=True,
+    help='Show detailed output'
+)
+def shell_completion_cmd(
+    shell: str,
+    install: bool,
+    output: Optional[Path],
+    verbose: bool
+):
+    """Generate or install shell completion scripts.
+
+    SHELL: Shell type (bash, zsh, fish, powershell, or pwsh)
+
+    Examples:
+
+        shell-completion bash
+        shell-completion zsh --install
+        shell-completion fish --output completion.fish
+        shell-completion powershell --install
+    """
+    try:
+        shell = shell.lower()
+        if shell not in ['bash', 'zsh', 'fish', 'powershell', 'pwsh']:
+            raise click.ClickException(
+                f"Unsupported shell: {shell}. Choose from: bash, zsh, fish, powershell, pwsh"
+            )
+
+        if install:
+            install_shell_completion(shell, verbose)
+        else:
+            # Just output the completion script
+            completer = ShellCompleter()
+            if shell == 'bash':
+                script = completer.generate_bash_completion()
+            elif shell == 'zsh':
+                script = completer.generate_zsh_completion()
+            elif shell == 'fish':
+                script = completer.generate_fish_completion()
+            elif shell in ['powershell', 'pwsh']:
+                script = completer.generate_powershell_completion()
+
+            if output:
+                output.write_text(script, encoding='utf-8')
+                if verbose:
+                    click.echo(f"[OK] Wrote completion script to {output}")
+            else:
+                click.echo(script)
+
+    except Exception as e:
+        raise click.ClickException(f"Error with shell completion: {e}")

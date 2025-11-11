@@ -5,14 +5,54 @@ All notable changes to this project will be documented in this file (because we 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 📚,
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) 🎯.
 
+## [0.0.2] - 2025-11-10 🎉
+
+### Added (Roadmap Features Implemented!) ✨
+
+#### Advanced Features (All Roadmap Items Complete!) 🚀
+- **Shell auto-completion support** 🐚:
+  - `shell-completion` command with bash, zsh, and fish support
+  - Auto-installation capabilities with manual configuration instructions
+  - Full command and option completion for all dotenv-tools commands
+
+- **Environment diffing command** ⚖️:
+  - `compare-env` command to compare .env files or with current environment
+  - Text and JSON output formats
+  - Detailed comparison showing common, different, and unique variables
+  - Save comparison results to file
+
+- **Template generation** 📝:
+  - `generate-template` command for creating .env templates
+  - Customizable variable lists
+  - Include/exclude comments and example values
+  - Built-in help text and example values for common variables
+
+- **YAML/JSON export functionality** 📊:
+  - `export-dotenv` command supporting JSON and YAML formats
+  - Preserves variable values and structure
+  - Output to stdout or file
+  - Auto-discovery of .env files
+
+#### New CLI Commands 🎮
+- `export-dotenv` - Export .env files to JSON/YAML format
+- `generate-template` - Generate .env template files
+- `compare-env` - Compare .env files or environments
+- `shell-completion` - Generate/install shell completion scripts
+
+#### Technical Improvements 🛠️
+- Added PyYAML dependency for YAML support
+- Enhanced project scripts in pyproject.toml
+- Comprehensive test coverage for new features
+- Updated documentation with all new commands
+
 ## [Unreleased] 🚀
 
-### Planned (Coming Soon!) 🎉
-- Shell auto-completion support 🐚
-- Environment diffing command ⚖️
-- Template generation (.env.example) 📄
-- YAML/JSON export functionality 📊
+### Planned (Future Enhancements) 🌟
 - Multiple file loading support 📁
+- Environment variable validation
+- Integration with popular frameworks
+- Windows PowerShell completion
+- Docker container support
 
 ## [0.0.1] - 2025-11-10 🎊
 

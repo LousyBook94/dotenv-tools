@@ -33,6 +33,7 @@ classifiers = [
 keywords = ["dotenv", "environment", "cli", "env", "environment-variables"]
 dependencies = [
     "click>=8.0.0",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
@@ -49,6 +50,10 @@ dev = [
 load-dotenv = "dotenv_tools.cli:load_dotenv"
 unload-dotenv = "dotenv_tools.cli:unload_dotenv"
 set-dotenv = "dotenv_tools.cli:set_dotenv"
+export-dotenv = "dotenv_tools.cli:export_dotenv_cmd"
+generate-template = "dotenv_tools.cli:generate_template_cmd"
+compare-env = "dotenv_tools.cli:compare_env_cmd"
+shell-completion = "dotenv_tools.cli:shell_completion_cmd"
 
 [project.urls]
 Homepage = "https://github.com/LousyBook94/dotenv-tools"

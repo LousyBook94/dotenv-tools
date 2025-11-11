@@ -82,6 +82,43 @@ set-dotenv --list
 set-dotenv --edit
 ```
 
+**Export to JSON** 📊✨:
+
+```bash
+export-dotenv --format json
+export-dotenv --format json --output config.json
+```
+
+**Export to YAML** 📄🎯:
+
+```bash
+export-dotenv --format yaml --output config.yaml
+```
+
+**Generate .env template** 📝🌟:
+
+```bash
+generate-template
+generate-template --output .env.template
+generate-template --variables APP_NAME PORT DATABASE_URL
+```
+
+**Compare .env files** ⚖️🔍:
+
+```bash
+compare-env .env.development .env.production
+compare-env .env --env
+compare-env .env.staging --output diff.txt
+```
+
+**Install shell completion** 🐚🚀:
+
+```bash
+shell-completion bash --install
+shell-completion zsh --install
+shell-completion fish --install
+```
+
 **Verbose output** 🔍📢:
 
 ```bash
@@ -217,20 +254,89 @@ pytest tests/
 unload-dotenv --force
 ```
 
-### Docker/Shells 🐳💻
+## Advanced Features 🚀💪
 
-Load environment in your shell (how cool is that?!):
+### Export Support 📊✨
 
+Export your .env files to different formats for integration with other tools:
+
+**JSON Export**:
 ```bash
-# Add to ~/.bashrc or ~/.zshrc
-load-dotenv() {
-    python -m dotenv_tools.cli load-dotenv "$@"
-}
+# Export to stdout
+export-dotenv --format json
 
-unload-dotenv() {
-    python -m dotenv_tools.cli unload-dotenv "$@"
-}
+# Export to file
+export-dotenv --format json --output app-config.json
 ```
+
+**YAML Export**:
+```bash
+# Export to stdout  
+export-dotenv --format yaml
+
+# Export to file
+export-dotenv --format yaml --output app-config.yaml
+```
+
+### Template Generation 📝🌟
+
+Generate .env templates for new projects or to document required variables:
+
+**Generate default template**:
+```bash
+generate-template --output .env.template
+```
+
+**Custom variables**:
+```bash
+generate-template --variables APP_NAME PORT DATABASE_URL API_KEY --output .env.custom
+```
+
+**Minimal template** (no comments or examples):
+```bash
+generate-template --no-comments --no-examples
+```
+
+### Environment Diffing ⚖️🔍
+
+Compare .env files or compare with current environment:
+
+**Compare two files**:
+```bash
+compare-env .env.development .env.production
+```
+
+**Compare with current environment**:
+```bash
+compare-env .env --env
+```
+
+**Save comparison to file**:
+```bash
+compare-env .env.staging .env.production --output diff.txt
+compare-env .env --env --format json --output env-compare.json
+```
+
+### Shell Completion 🐚🎯
+
+Install auto-completion for your shell:
+
+**Bash**:
+```bash
+shell-completion bash --install
+```
+
+**Zsh**:
+```bash
+shell-completion zsh --install
+```
+
+**Fish**:
+```bash
+shell-completion fish --install
+```
+
+The completion scripts will be automatically installed and configured for your shell!
 
 ## Documentation 📚🔍
 
@@ -296,10 +402,19 @@ Contributions are welcome! Please feel free to submit a Pull Request (let's make
 
 ## Roadmap 🗺️🚀
 
-- [ ] Auto-completion for shell integration 🐚
-- [ ] .env template generation 📝
-- [ ] Environment diffing ⚖️
-- [ ] YAML/JSON export support 📊
+- [x] Auto-completion for shell integration 🐚
+- [x] .env template generation 📝
+- [x] Environment diffing ⚖️
+- [x] YAML/JSON export support 📊
+
+All roadmap features have been implemented! 🎉
+
+## TODO / Future Enhancements 📝🔮
+
+### Shell Completion Enhancements
+- [ ] **Windows CMD completion** - CMD has limited shell completion support, but we could improve DOSKEY alias support
+- [ ] **Windows Terminal integration** - Better integration with Windows Terminal's completion features
+
 
 ## Issues 🐛💬
 

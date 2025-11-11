@@ -282,6 +282,137 @@ load-dotenv
 
 ---
 
+## Additional Commands
+
+The following commands provide advanced features for export, template generation, diffing, and shell integration:
+
+### export-dotenv 📊✨
+
+Export .env files to JSON or YAML format for integration with other tools.
+
+```bash
+# Export to JSON format
+export-dotenv --format json
+
+# Export to YAML format  
+export-dotenv --format yaml
+
+# Export to file
+export-dotenv --format json --output app-config.json
+export-dotenv --format yaml --output app-config.yaml
+
+# Use auto-discovered .env file
+export-dotenv
+```
+
+**Options:**
+- `--format, -f`: Output format (json or yaml, default: json)
+- `--output, -o`: Output file path (default: stdout)
+- `--verbose, -v`: Show detailed output
+
+### generate-template 📝🌟
+
+Generate .env template files with common variables and helpful comments.
+
+```bash
+# Generate default template
+generate-template
+
+# Generate template with specific variables
+generate-template --variables APP_NAME PORT DATABASE_URL API_KEY
+
+# Generate to file
+generate-template --output .env.template
+
+# Minimal template (no comments or examples)
+generate-template --no-comments --no-examples
+```
+
+**Options:**
+- `--output, -o`: Output file path (default: stdout)
+- `--variables, -v`: Variables to include (can be repeated)
+- `--no-comments`: Exclude helpful comments
+- `--no-examples`: Exclude example values
+- `--verbose, -v`: Show detailed output
+
+### compare-env ⚖️🔍
+
+Compare .env files with each other or with the current environment.
+
+```bash
+# Compare two .env files
+compare-env .env.development .env.production
+
+# Compare .env file with current environment
+compare-env .env --env
+
+# Save comparison to file
+compare-env .env.staging .env.production --output diff.txt
+
+# JSON output format
+compare-env .env --env --format json --output env-compare.json
+```
+
+**Arguments:**
+- `FILE1`: First .env file to compare
+- `FILE2`: Second .env file (optional when using --env)
+
+**Options:**
+- `--format, -f`: Output format (text or json, default: text)
+- `--output, -o`: Output file path (default: stdout)
+- `--env, -e`: Compare with current environment instead of a second file
+- `--verbose, -v`: Show detailed output
+
+### shell-completion 🐚🎯
+
+Generate or install shell completion scripts for better CLI experience.
+
+```bash
+# Generate completion script to stdout
+shell-completion bash
+shell-completion zsh
+shell-completion fish
+
+# Save completion script to file
+shell-completion bash --output completion.bash
+shell-completion zsh --output completion.zsh
+shell-completion fish --output completion.fish
+
+# Install completion automatically
+shell-completion bash --install
+shell-completion zsh --install
+shell-completion fish --install
+```
+
+**Arguments:**
+- `SHELL`: Shell type (bash, zsh, or fish)
+
+**Options:**
+- `--install, -i`: Install completion script automatically
+- `--output, -o`: Output file path (default: stdout)
+- `--verbose, -v`: Show detailed output
+
+**Installation Instructions:**
+
+**Bash:**
+After installation, add to your `~/.bashrc`:
+```bash
+source ~/.bash_completion.d/dotenv-tools
+```
+
+**Zsh:**
+The completion is installed to `~/.zfunc/_dotenv-tools`. Add to your `~/.zshrc`:
+```bash
+fpath=(~/.zfunc $fpath)
+autoload -U compinit
+compinit
+```
+
+**Fish:**
+Completion is automatically available after restarting your shell.
+
+---
+
 ## Assignment Operators
 
 Dotenv-tools supports multiple assignment operators for different behaviors:
